@@ -113,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                       // height: 130.h,
                       // width: 80.w,
                       child: Image.asset(
-                        AppImage.fitnessMen,
+                        AppImage.fitnessWomen,
                         fit: BoxFit.cover,
                       ),
                     )

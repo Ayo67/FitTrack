@@ -47,9 +47,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyBxijuuJ4VnE1f235PSjfTl2rrJHdL9koM',
     appId: '1:806975117481:web:ca38c55de14f9caa0531b8',
     messagingSenderId: '806975117481',
-    projectId: 'fitness-app-4dcc6',
-    authDomain: 'fitness-app-4dcc6.firebaseapp.com',
-    storageBucket: 'fitness-app-4dcc6.firebasestorage.app',
+    projectId: 'fitness-app-73925',
+    authDomain: 'fitness-app-73925.firebaseapp.com',
+    storageBucket: 'fitness-app-73925.firebasestorage.app',
     measurementId: 'G-ZLK0B4EZ04',
   );
 
@@ -57,16 +57,16 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyD0FB88mjEWAwGTtxWNnNT723mSAddTFKk',
     appId: '1:806975117481:android:ab1b48c935856d0e0531b8',
     messagingSenderId: '806975117481',
-    projectId: 'fitness-app-4dcc6',
-    storageBucket: 'fitness-app-4dcc6.firebasestorage.app',
+    projectId: 'fitness-app-73925',
+    storageBucket: 'fitness-app-73925.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDqojCqgYw05DTWqWnt9JBCSlCs29k9FEU',
     appId: '1:806975117481:ios:bdeb64edbadfba340531b8',
     messagingSenderId: '806975117481',
-    projectId: 'fitness-app-4dcc6',
-    storageBucket: 'fitness-app-4dcc6.firebasestorage.app',
+    projectId: 'fitness-app-73925',
+    storageBucket: 'fitness-app-73925.firebasestorage.app',
     iosBundleId: 'com.example.fitnessapp',
   );
 

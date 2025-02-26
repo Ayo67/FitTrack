@@ -1,5 +1,5 @@
 import 'package:fitnessapp/src/common/constant/colors.dart';
-import 'package:fitnessapp/src/common/utils/text_widget.dart';
+import 'package:fitnessapp/src/common/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

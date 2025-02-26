@@ -1,4 +1,12 @@
-
+import 'package:fitnessapp/src/common/constant/colors.dart';
+import 'package:fitnessapp/src/common/utils/custom_cotainer.dart';
+import 'package:fitnessapp/src/common/utils/custom_text_field.dart';
+import 'package:fitnessapp/src/common/utils/text_widget.dart';
+import 'package:fitnessapp/src/common/validation.dart';
+import 'package:fitnessapp/src/features/auth/sign_in_screen/sign_in_screen.dart';
+import 'package:fitnessapp/src/features/notification_screen/page/notification_screen.dart';
+import 'package:fitnessapp/src/features/profile_screen/widget/profile_card_widget.dart';
+import 'package:fitnessapp/src/features/profile_screen/widget/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
