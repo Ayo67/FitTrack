@@ -1,16 +1,16 @@
 import 'dart:developer';
 
-import 'package:fitnessapp/src/common/constant/app_icons.dart';
-import 'package:fitnessapp/src/common/constant/colors.dart';
-import 'package:fitnessapp/src/common/utils/custom_cotainer.dart';
-import 'package:fitnessapp/src/common/utils/custom_google_signin_button.dart';
-import 'package:fitnessapp/src/common/utils/custom_text_field.dart';
-import 'package:fitnessapp/src/common/utils/text_widget.dart';
-import 'package:fitnessapp/src/common/validation.dart';
-import 'package:fitnessapp/src/features/auth/controller/auth_controller.dart';
-import 'package:fitnessapp/src/features/auth/forgot_password/forgot_password.dart';
-import 'package:fitnessapp/src/features/auth/sign_up_screen/sign_up_screen.dart';
-import 'package:fitnessapp/src/features/home/screen/home_screen.dart';
+import 'package:FitTrack/src/common/constant/app_icons.dart';
+import 'package:FitTrack/src/common/constant/colors.dart';
+import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
+import 'package:FitTrack/src/common/utils/custom_google_signin_button.dart';
+import 'package:FitTrack/src/common/utils/custom_text_field.dart';
+import 'package:FitTrack/src/common/utils/text_widget.dart';
+import 'package:FitTrack/src/common/validation.dart';
+import 'package:FitTrack/src/features/auth/controller/auth_controller.dart';
+import 'package:FitTrack/src/features/auth/forgot_password/forgot_password.dart';
+import 'package:FitTrack/src/features/auth/sign_up_screen/sign_up_screen.dart';
+import 'package:FitTrack/src/features/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

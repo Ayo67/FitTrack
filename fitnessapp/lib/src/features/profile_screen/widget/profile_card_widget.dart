@@ -1,6 +1,6 @@
-import 'package:fitnessapp/src/common/constant/colors.dart';
-import 'package:fitnessapp/src/common/utils/custom_cotainer.dart';
-import 'package:fitnessapp/src/common/utils/text_widget.dart';
+import 'package:FitTrack/src/common/constant/colors.dart';
+import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
+import 'package:FitTrack/src/common/utils/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

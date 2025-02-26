@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:fitnessapp/src/common/constant/app_image.dart';
-import 'package:fitnessapp/src/common/constant/colors.dart';
-import 'package:fitnessapp/src/common/utils/custom_cotainer.dart';
-import 'package:fitnessapp/src/common/utils/text_widget.dart';
-import 'package:fitnessapp/src/features/notification_screen/page/notification_screen.dart';
+import 'package:FitTrack/src/common/constant/app_image.dart';
+import 'package:FitTrack/src/common/constant/colors.dart';
+import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
+import 'package:FitTrack/src/common/utils/text_widget.dart';
+import 'package:FitTrack/src/features/notification_screen/page/notification_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
