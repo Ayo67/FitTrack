@@ -10,6 +10,7 @@ import 'package:FitTrack/src/common/validation.dart';
 import 'package:FitTrack/src/features/auth/controller/auth_controller.dart';
 import 'package:FitTrack/src/features/auth/forgot_password/forgot_password.dart';
 import 'package:FitTrack/src/features/auth/sign_up_screen/sign_up_screen.dart';
+import 'package:FitTrack/src/features/bottom_bar/page/bottom_bar_Screen.dart';
 import 'package:FitTrack/src/features/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -175,7 +176,7 @@ class SignInScreen extends StatelessWidget {
               CustomContainer(
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    Get.to(HomeScreen());
+                    Get.to(BottomBarScreen());
                     log('-------validation complete');
                   }
                 },
