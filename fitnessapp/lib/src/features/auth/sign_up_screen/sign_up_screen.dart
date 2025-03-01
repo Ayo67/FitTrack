@@ -60,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               CustomTextFormField(
                 validator: (value) => nameValidator(value),
-                hint: 'Nmae',
+                hint: 'Name',
                 borderRadius: 12,
                 filledColor: AppColors.bgColor,
                 hintTextColor: AppColors.whiteColor.withOpacity(.6),
