@@ -41,15 +41,9 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
-                      text: 'Good Morning',
+                      text: 'Hello User',
                       fontSize: 14.sp,
                       color: AppColors.primaryColor,
-                    ),
-                    TextWidget(
-                      text: 'Mark M',
-                      fontSize: 14.sp,
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
