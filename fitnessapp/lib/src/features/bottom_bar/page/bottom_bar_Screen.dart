@@ -26,6 +26,7 @@ class BottomBarScreen extends StatelessWidget {
   ];
   List<String> textList = ['Home', 'Activity', 'Profile'];
   List<Widget> pages = [HomeScreen(), ActivityScreen(), ProfileScreen()];
+  @override
   Widget build(BuildContext context) {
     Widget bottommBarButton(index) {
       bool isSelected = BottomBarController.to.bottomBarIndex.value == index;

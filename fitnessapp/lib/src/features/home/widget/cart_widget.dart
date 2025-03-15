@@ -1,4 +1,5 @@
 import 'package:FitTrack/src/common/constant/colors.dart';
+import 'package:FitTrack/src/common/constant/fitbitconst.dart';
 import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
 import 'package:FitTrack/src/common/utils/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class CartWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "1046",
+                      FitBitConst.stepsdataList![1].value.toString(),
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,

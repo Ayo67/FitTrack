@@ -1,12 +1,11 @@
 import 'package:FitTrack/src/common/constant/colors.dart';
 import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
-import 'package:FitTrack/src/common/utils/custom_text_field.dart';
 import 'package:FitTrack/src/common/utils/text_widget.dart';
 import 'package:FitTrack/src/common/validation.dart';
-import 'package:FitTrack/src/features/auth/sign_in_screen/sign_in_screen.dart';
 import 'package:FitTrack/src/features/notification_screen/page/notification_screen.dart';
 import 'package:FitTrack/src/features/profile_screen/widget/profile_card_widget.dart';
 import 'package:FitTrack/src/features/profile_screen/widget/text_field_widget.dart';
+import 'package:FitTrack/src/repository/fitbit_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -21,6 +20,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: PreferredSize(
@@ -238,7 +238,8 @@ class ProfileScreen extends StatelessWidget {
               ),
               CustomContainer(
                 onTap: () {
-                  Get.off(SignInScreen());
+                  // Get.off(SignInScreen());
+                  FitBitRepo().fitBitAuth();
                 },
                 height: 60.h,
                 width: double.infinity,
@@ -252,7 +253,7 @@ class ProfileScreen extends StatelessWidget {
                       width: 10.w,
                     ),
                     TextWidget(
-                      text: 'Log In',
+                      text: 'Authorize To FitBit',
                       fontSize: 14.sp,
                       color: AppColors.bgColor,
                       fontWeight: FontWeight.w600,

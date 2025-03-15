@@ -1,11 +1,12 @@
 import 'dart:developer';
 
+// import 'package:FitTrack/FitTrack.dart';
+import 'package:FitTrack/src/common/constant/fitbitconst.dart';
+import 'package:FitTrack/src/common/constant/sharedprefrence.dart';
+import 'package:FitTrack/src/common/constant/strings.dart';
+import 'package:FitTrack/src/features/bottom_bar/page/bottom_bar_Screen.dart';
+import 'package:FitTrack/src/repository/sleep_model.dart';
 import 'package:fitbitter/fitbitter.dart';
-import 'package:fitnessapp/src/common/constant/fitbitconst.dart';
-import 'package:fitnessapp/src/common/constant/sharedprefrence.dart';
-import 'package:fitnessapp/src/common/constant/strings.dart';
-import 'package:fitnessapp/src/features/bottom_bar/page/bottom_bar_Screen.dart';
-import 'package:fitnessapp/src/repository/sleep_model.dart';
 import 'package:get/get.dart';
 
 class FitBitRepo {

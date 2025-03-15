@@ -1,5 +1,6 @@
 import 'package:FitTrack/src/common/constant/app_image.dart';
 import 'package:FitTrack/src/common/constant/colors.dart';
+import 'package:FitTrack/src/common/constant/fitbitconst.dart';
 import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
 import 'package:FitTrack/src/common/utils/text_widget.dart';
 import 'package:FitTrack/src/features/home/widget/cart_widget.dart';
@@ -8,7 +9,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -41,9 +41,15 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
-                      text: 'Hello User',
+                      text: 'Good Morning',
                       fontSize: 14.sp,
                       color: AppColors.primaryColor,
+                    ),
+                    TextWidget(
+                      text: 'Mark M',
+                      fontSize: 14.sp,
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
@@ -161,7 +167,8 @@ class HomeScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "1046",
+                                  FitBitConst.stepsdataList![1].value
+                                      .toString(),
                                   style: TextStyle(
                                     fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
@@ -217,7 +224,8 @@ class HomeScreen extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(left: 5.w),
                                 child: TextWidget(
-                                  text: '96',
+                                  text: FitBitConst.heartRateData!.minimumPeak
+                                      .toString(),
                                   fontSize: 16.sp,
                                   color: AppColors.whiteColor,
                                   fontWeight: FontWeight.w700,
@@ -305,7 +313,9 @@ class HomeScreen extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(left: 5.w),
                                 child: TextWidget(
-                                  text: '6',
+                                  text: FitBitConst
+                                      .sleepData!.summary.totalMinutesAsleep
+                                      .toString(),
                                   fontSize: 16.sp,
                                   color: AppColors.whiteColor,
                                   fontWeight: FontWeight.w700,
@@ -404,7 +414,8 @@ class HomeScreen extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(left: 5.w),
                                 child: TextWidget(
-                                  text: '400',
+                                  text: FitBitConst.caloriesdataList![1].value
+                                      .toString(),
                                   fontSize: 16.sp,
                                   color: AppColors.whiteColor,
                                   fontWeight: FontWeight.w700,

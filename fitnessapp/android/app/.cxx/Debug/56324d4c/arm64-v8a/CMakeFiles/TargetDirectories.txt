@@ -1,0 +1,2 @@
+C:/Users/ayoog/FitTrack/fitnessapp/android/app/.cxx/Debug/56324d4c/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/ayoog/FitTrack/fitnessapp/android/app/.cxx/Debug/56324d4c/arm64-v8a/CMakeFiles/rebuild_cache.dir
