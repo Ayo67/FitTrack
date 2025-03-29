@@ -3,10 +3,8 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
 
-  RxBool visibilityBool = true.obs;
-  void changeVisibilityStatus() {
-    visibilityBool.value = !visibilityBool.value;
-  }
+  RxBool isloading = false.obs;
+ 
 
   RxBool signUpVisibilityBool = true.obs;
   void changeSignUpVisibilityStatus() {

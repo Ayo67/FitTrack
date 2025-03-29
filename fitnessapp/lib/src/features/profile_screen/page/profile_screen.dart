@@ -1,11 +1,11 @@
 import 'package:FitTrack/src/common/constant/colors.dart';
+import 'package:FitTrack/src/common/constant/sharedprefrence.dart';
 import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
 import 'package:FitTrack/src/common/utils/text_widget.dart';
 import 'package:FitTrack/src/common/validation.dart';
-import 'package:FitTrack/src/features/notification_screen/page/notification_screen.dart';
+import 'package:FitTrack/src/features/auth/sign_in_screen/sign_in_screen.dart';
 import 'package:FitTrack/src/features/profile_screen/widget/profile_card_widget.dart';
 import 'package:FitTrack/src/features/profile_screen/widget/text_field_widget.dart';
-import 'package:FitTrack/src/repository/fitbit_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: PreferredSize(
@@ -32,29 +31,29 @@ class ProfileScreen extends StatelessWidget {
                 TextWidget(
                   text: 'Good Morning',
                   fontSize: 17.sp,
-                  color: AppColors.whiteColor,
+                  color: AppColors.txtColor,
                   fontWeight: FontWeight.w800,
                 ),
                 Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(NotificationScreen());
-                  },
-                  child: Container(
-                    height: 40.h,
-                    width: 40.w,
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(color: AppColors.primaryColor, width: 1),
-                        color: Color(0xff171624),
-                        shape: BoxShape.circle),
-                    child: Icon(
-                      Icons.notifications_none_outlined,
-                      color: AppColors.whiteColor,
-                      size: 30.h,
-                    ),
-                  ),
-                )
+                // GestureDetector(
+                //   onTap: () {
+                //     Get.to(NotificationScreen());
+                //   },
+                //   child: Container(
+                //     height: 40.h,
+                //     width: 40.w,
+                //     decoration: BoxDecoration(
+                //         border:
+                //             Border.all(color: AppColors.primaryColor, width: 1),
+                //         color: Color(0xff171624),
+                //         shape: BoxShape.circle),
+                //     child: Icon(
+                //       Icons.notifications_none_outlined,
+                //       color: AppColors.whiteColor,
+                //       size: 30.h,
+                //     ),
+                //   ),
+                // )
               ],
             ),
           )),
@@ -66,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
               Center(
                 child: CircleAvatar(
                   radius: 50.r,
-                  backgroundColor: AppColors.cardColor,
+                  backgroundColor: AppColors.primaryColor,
                   child: Icon(
                     Icons.person,
                     color: AppColors.whiteColor,
@@ -85,35 +84,35 @@ class ProfileScreen extends StatelessWidget {
               TextWidget(
                 text: 'Mark',
                 fontSize: 15.sp,
-                color: AppColors.whiteColor,
+                color: AppColors.txtColor,
                 fontWeight: FontWeight.w700,
               ),
               SizedBox(
                 height: 10.h,
               ),
-              CustomContainer(
-                // width: 120.w,
-                borderRadius: 8.r,
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                color: AppColors.primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.edit_square,
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    TextWidget(
-                      text: 'Edit Profile',
-                      color: AppColors.black,
-                      fontSize: 12.sp,
-                    )
-                  ],
-                ),
-              ),
+              // CustomContainer(
+              //   // width: 120.w,
+              //   borderRadius: 8.r,
+              //   padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+              //   color: AppColors.primaryColor,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       Icon(
+              //         Icons.edit_square,
+              //       ),
+              //       SizedBox(
+              //         width: 10.w,
+              //       ),
+              //       TextWidget(
+              //         text: 'Edit Profile',
+              //         color: AppColors.black,
+              //         fontSize: 12.sp,
+              //       )
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 height: 30.h,
               ),
@@ -188,7 +187,7 @@ class ProfileScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
                   text: 'Personal Informations',
-                  color: AppColors.whiteColor,
+                  color: AppColors.txtColor,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                 ),
@@ -238,8 +237,8 @@ class ProfileScreen extends StatelessWidget {
               ),
               CustomContainer(
                 onTap: () {
-                  // Get.off(SignInScreen());
-                  FitBitRepo().fitBitAuth();
+                  Get.off(SignInScreen());
+                  SharedPref().deleteFitbitCredentials();
                 },
                 height: 60.h,
                 width: double.infinity,
@@ -248,12 +247,15 @@ class ProfileScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.logout),
+                    Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
                     SizedBox(
                       width: 10.w,
                     ),
                     TextWidget(
-                      text: 'Authorize To FitBit',
+                      text: 'Log Out',
                       fontSize: 14.sp,
                       color: AppColors.bgColor,
                       fontWeight: FontWeight.w600,

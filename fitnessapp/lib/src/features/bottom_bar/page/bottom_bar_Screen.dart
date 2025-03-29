@@ -8,6 +8,7 @@ import 'package:FitTrack/src/features/home/screen/home_screen.dart';
 import 'package:FitTrack/src/features/profile_screen/page/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 class BottomBarScreen extends StatelessWidget {
@@ -26,6 +27,8 @@ class BottomBarScreen extends StatelessWidget {
   ];
   List<String> textList = ['Home', 'Activity', 'Profile'];
   List<Widget> pages = [HomeScreen(), ActivityScreen(), ProfileScreen()];
+  final controller = BottomBarController.to;
+
   @override
   Widget build(BuildContext context) {
     Widget bottommBarButton(index) {
@@ -33,7 +36,9 @@ class BottomBarScreen extends StatelessWidget {
 
       return GestureDetector(
           onTap: () {
-            BottomBarController.to.updateBottomBarIndex(index);
+            if (controller.isLoading.value == false) {
+              BottomBarController.to.updateBottomBarIndex(index);
+            }
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -42,16 +47,14 @@ class BottomBarScreen extends StatelessWidget {
                 isSelected ? activeImage[index] : inActiveImage[index],
                 height: 22.h,
                 fit: BoxFit.cover,
-                color:
-                    isSelected ? AppColors.primaryColor : AppColors.whiteColor,
+                color: isSelected ? AppColors.btnColor : AppColors.txtColor,
               ),
               SizedBox(
                 height: 5.h,
               ),
               TextWidget(
                 text: textList[index],
-                color:
-                    isSelected ? AppColors.primaryColor : AppColors.whiteColor,
+                color: isSelected ? AppColors.btnColor : AppColors.txtColor,
                 fontSize: 12.sp,
               )
             ],
@@ -61,7 +64,7 @@ class BottomBarScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: CustomContainer(
         height: 70.h,
-        color: AppColors.cardColor,
+        color: AppColors.cardbgColor,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 0.w),
           child: Obx(() {
@@ -76,7 +79,26 @@ class BottomBarScreen extends StatelessWidget {
           }),
         ),
       ),
-      body: Obx(() => pages[BottomBarController.to.bottomBarIndex.value]),
+      body: Stack(
+        children: [
+          Obx(() => pages[BottomBarController.to.bottomBarIndex.value]),
+          Obx(
+            () => controller.isLoading.value
+                ? Container(
+                    color: Colors.grey.withOpacity(0.3),
+                    width: 375.w,
+                    height: 812.h,
+                    child: Center(
+                      child: SpinKitWave(
+                        color: AppColors.primaryColor,
+                        size: 100,
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+          ),
+        ],
+      ),
     );
   }
 }

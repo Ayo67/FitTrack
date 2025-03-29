@@ -8,7 +8,7 @@ class ProfileCardWidget extends StatelessWidget {
   final String title;
   final String subTitle;
   final Widget iconWidget;
-  ProfileCardWidget(
+  const ProfileCardWidget(
       {super.key,
       required this.title,
       required this.subTitle,
@@ -19,7 +19,7 @@ class ProfileCardWidget extends StatelessWidget {
     return CustomContainer(
       height: 150.h,
       width: ScreenUtil().screenWidth / 2.3,
-      color: AppColors.cardColor,
+      color: AppColors.cardbgColor,
       borderRadius: 20.r,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +31,7 @@ class ProfileCardWidget extends StatelessWidget {
           TextWidget(
             text: title,
             fontSize: 16.sp,
-            color: AppColors.whiteColor,
+            color: AppColors.txtColor,
             fontWeight: FontWeight.w600,
           ),
           SizedBox(
@@ -40,7 +40,7 @@ class ProfileCardWidget extends StatelessWidget {
           TextWidget(
             text: subTitle,
             fontSize: 12.sp,
-            color: AppColors.whiteColor,
+            color: AppColors.txtColor,
             // fontWeight: FontWeight.w600,
           )
         ],

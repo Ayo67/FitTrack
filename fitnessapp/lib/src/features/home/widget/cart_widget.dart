@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:FitTrack/src/common/constant/colors.dart';
 import 'package:FitTrack/src/common/constant/fitbitconst.dart';
 import 'package:FitTrack/src/common/utils/custom_cotainer.dart';
@@ -7,14 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CartWidget extends StatelessWidget {
-  final String text;
   final Widget iconWidget;
-  final Widget centerWidget;
   const CartWidget(
       {super.key,
-      required this.text,
-      required this.iconWidget,
-      required this.centerWidget});
+      required this.iconWidget,});
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +22,15 @@ class CartWidget extends StatelessWidget {
       child: Stack(
         children: [
           CustomContainer(
-            boxShadow: [
-              BoxShadow(
-                  color: AppColors.primaryColor.withOpacity(.6),
-                  blurRadius: 4,
-                  offset: Offset(.5, 1))
-            ],
+           boxShadow: [
+                      BoxShadow(
+                          color: AppColors.primaryColor.withOpacity(.6),
+                          blurRadius: 4,
+                          offset: Offset(.5, 1))
+                    ],
             height: 220.h,
             width: ScreenUtil().screenWidth / 2.3,
-            color: AppColors.cardColor,
+            color: AppColors.cardbgColor,
             borderRadius: 20.r,
             child: Padding(
               padding: EdgeInsets.only(top: 15.h),
@@ -41,29 +39,29 @@ class CartWidget extends StatelessWidget {
                 radius: 60.r,
                 lineWidth: 6.w,
                 startAngle: 50,
-                percent: .65,
+                percent: min(FitBitConst.stepsdataList![0].value! / 5000, 1.0),
                 center: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      FitBitConst.stepsdataList![1].value.toString(),
+                      FitBitConst.stepsdataList![0].value!.toInt().toString(),
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.txtColor,
                       ),
                     ),
                     Text(
                       "Steps",
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: Colors.white70,
+                        color: AppColors.txtColor,
                       ),
                     ),
                   ],
                 ),
                 progressColor: AppColors.primaryColor,
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.black.withOpacity(.1),
                 circularStrokeCap: CircularStrokeCap.round,
               ),
             ),
@@ -76,7 +74,7 @@ class CartWidget extends StatelessWidget {
                 TextWidget(
                   text: 'Walk',
                   fontSize: 13.sp,
-                  color: AppColors.primaryColor,
+                  color: AppColors.txtColor,
                 ),
                 iconWidget
               ],

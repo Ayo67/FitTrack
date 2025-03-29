@@ -22,7 +22,7 @@ class SharedPref {
   Future<FitbitCredentials?> loadFitbitCredentials() async {
     final prefs = await SharedPreferences.getInstance();
     String? jsonData = prefs.getString('fitbit_credentials');
-// ok let me run there .... 
+
     if (jsonData != null) {
       // Decode JSON manually
       Map<String, dynamic> data = jsonDecode(jsonData);

@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 class SleepData {
   final String dateOfSleep;
   final int duration;
@@ -23,37 +26,72 @@ class SleepData {
     required this.type,
   });
 
-  factory SleepData.fromJson(Map<String, dynamic> json) {
+  SleepData copyWith({
+    String? dateOfSleep,
+    int? duration,
+    int? efficiency,
+    String? endTime,
+    bool? isMainSleep,
+    List<SleepLevel>? levels,
+    int? minutesAsleep,
+    int? minutesAwake,
+    int? timeInBed,
+    String? type,
+  }) {
     return SleepData(
-      dateOfSleep: json['dateOfSleep'],
-      duration: json['duration'],
-      efficiency: json['efficiency'],
-      endTime: json['endTime'],
-      isMainSleep: json['isMainSleep'],
-      levels: (json['levels']['data'] as List)
-          .map((e) => SleepLevel.fromJson(e))
-          .toList(),
-      minutesAsleep: json['minutesAsleep'],
-      minutesAwake: json['minutesAwake'],
-      timeInBed: json['timeInBed'],
-      type: json['type'],
+      dateOfSleep: dateOfSleep ?? this.dateOfSleep,
+      duration: duration ?? this.duration,
+      efficiency: efficiency ?? this.efficiency,
+      endTime: endTime ?? this.endTime,
+      isMainSleep: isMainSleep ?? this.isMainSleep,
+      levels: levels ?? this.levels,
+      minutesAsleep: minutesAsleep ?? this.minutesAsleep,
+      minutesAwake: minutesAwake ?? this.minutesAwake,
+      timeInBed: timeInBed ?? this.timeInBed,
+      type: type ?? this.type,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
       'dateOfSleep': dateOfSleep,
       'duration': duration,
       'efficiency': efficiency,
       'endTime': endTime,
       'isMainSleep': isMainSleep,
-      'levels': {'data': levels.map((e) => e.toJson()).toList()},
+      'levels': levels.map((x) => x.toMap()).toList(),
       'minutesAsleep': minutesAsleep,
       'minutesAwake': minutesAwake,
       'timeInBed': timeInBed,
       'type': type,
     };
   }
+
+  factory SleepData.fromMap(Map<String, dynamic> map) {
+    return SleepData(
+      dateOfSleep: map['dateOfSleep'] as String,
+      duration: map['duration'] as int,
+      efficiency: map['efficiency'] as int,
+      endTime: map['endTime'] as String,
+      isMainSleep: map['isMainSleep'] as bool,
+      levels: map['levels'] is List
+          ? List<SleepLevel>.from(
+              (map['levels'] as List<dynamic>).map<SleepLevel>(
+                (x) => SleepLevel.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : [], // Default to an empty list if levels is not a list
+      minutesAsleep: map['minutesAsleep'] as int,
+      minutesAwake: map['minutesAwake'] as int,
+      timeInBed: map['timeInBed'] as int,
+      type: map['type'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory SleepData.fromJson(String source) =>
+      SleepData.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class SleepLevel {
@@ -67,21 +105,26 @@ class SleepLevel {
     required this.seconds,
   });
 
-  factory SleepLevel.fromJson(Map<String, dynamic> json) {
-    return SleepLevel(
-      dateTime: json['dateTime'],
-      level: json['level'],
-      seconds: json['seconds'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
       'dateTime': dateTime,
       'level': level,
       'seconds': seconds,
     };
   }
+
+  factory SleepLevel.fromMap(Map<String, dynamic> map) {
+    return SleepLevel(
+      dateTime: map['dateTime'] as String,
+      level: map['level'] as String,
+      seconds: map['seconds'] as int,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory SleepLevel.fromJson(String source) =>
+      SleepLevel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class SleepSummary {
@@ -95,21 +138,26 @@ class SleepSummary {
     required this.totalTimeInBed,
   });
 
-  factory SleepSummary.fromJson(Map<String, dynamic> json) {
-    return SleepSummary(
-      totalMinutesAsleep: json['totalMinutesAsleep'],
-      totalSleepRecords: json['totalSleepRecords'],
-      totalTimeInBed: json['totalTimeInBed'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
       'totalMinutesAsleep': totalMinutesAsleep,
       'totalSleepRecords': totalSleepRecords,
       'totalTimeInBed': totalTimeInBed,
     };
   }
+
+  factory SleepSummary.fromMap(Map<String, dynamic> map) {
+    return SleepSummary(
+      totalMinutesAsleep: map['totalMinutesAsleep'] as int,
+      totalSleepRecords: map['totalSleepRecords'] as int,
+      totalTimeInBed: map['totalTimeInBed'] as int,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory SleepSummary.fromJson(String source) =>
+      SleepSummary.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class SleepResponse {
@@ -121,17 +169,28 @@ class SleepResponse {
     required this.summary,
   });
 
-  factory SleepResponse.fromJson(Map<String, dynamic> json) {
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'sleep': sleep.map((x) => x.toMap()).toList(),
+      'summary': summary.toMap(),
+    };
+  }
+
+  factory SleepResponse.fromMap(Map<String, dynamic> map) {
     return SleepResponse(
-      sleep: (json['sleep'] as List).map((e) => SleepData.fromJson(e)).toList(),
-      summary: SleepSummary.fromJson(json['summary']),
+      sleep: map['sleep'] is List
+          ? List<SleepData>.from(
+              (map['sleep'] as List<dynamic>).map<SleepData>(
+                (x) => SleepData.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : [], // Default to an empty list if 'sleep' is not a List
+      summary: SleepSummary.fromMap(map['summary'] as Map<String, dynamic>),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'sleep': sleep.map((e) => e.toJson()).toList(),
-      'summary': summary.toJson(),
-    };
-  }
+  String toJson() => json.encode(toMap());
+
+  factory SleepResponse.fromJson(String source) =>
+      SleepResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -27,7 +27,7 @@ class ProfileTextField extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: TextWidget(
               text: text ?? '',
-              color: AppColors.whiteColor,
+              color: AppColors.txtColor,
             ),
           ),
         ),
@@ -35,14 +35,15 @@ class ProfileTextField extends StatelessWidget {
           height: 12.h,
         ),
         CustomTextFormField(
+          enable: false,
           validator: validator,
           hint: hintText,
           borderRadius: 12,
-          filledColor: AppColors.cardColor,
-          hintTextColor: AppColors.whiteColor.withOpacity(.6),
+          filledColor: AppColors.cardbgColor,
+          hintTextColor: AppColors.txtColor,
           controller: controller,
-          borderColor: AppColors.cardColor,
-          focusedBorderColor: AppColors.primaryColor,
+          borderColor: AppColors.cardbgColor,
+          focusedBorderColor: AppColors.cardbgColor,
         ),
       ],
     );
