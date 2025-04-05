@@ -34,16 +34,18 @@ class ProfileTextField extends StatelessWidget {
         SizedBox(
           height: 12.h,
         ),
-        CustomTextFormField(
-          enable: false,
-          validator: validator,
-          hint: hintText,
-          borderRadius: 12,
-          filledColor: AppColors.cardbgColor,
-          hintTextColor: AppColors.txtColor,
-          controller: controller,
-          borderColor: AppColors.cardbgColor,
-          focusedBorderColor: AppColors.cardbgColor,
+        IgnorePointer(
+          child: CustomTextFormField(
+            enable: false,
+            validator: validator,
+            hint: hintText,
+            borderRadius: 12,
+            filledColor: AppColors.cardbgColor,
+            hintTextColor: AppColors.txtColor,
+            controller: controller,
+            borderColor: AppColors.cardbgColor,
+            focusedBorderColor: AppColors.cardbgColor,
+          ),
         ),
       ],
     );

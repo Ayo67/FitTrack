@@ -90,7 +90,7 @@ class CustomTextFormField extends StatelessWidget {
       onChanged: onChanged,
       obscureText: obsecure ?? false,
       style: TextStyle(
-        color: textInputColor ?? AppColors.whiteColor,
+        color: textInputColor ?? AppColors.black,
         fontSize: fontSize ?? 15.sp,
         fontFamily: fontFamily ?? 'Sfpro',
         fontWeight: fontWeight ?? FontWeight.w400,

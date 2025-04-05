@@ -1,4 +1,5 @@
 import 'package:fitnessapp/src/common/constant/colors.dart';
+import 'package:fitnessapp/src/common/constant/fitbitconst.dart';
 import 'package:fitnessapp/src/common/constant/sharedprefrence.dart';
 import 'package:fitnessapp/src/common/utils/custom_cotainer.dart';
 import 'package:fitnessapp/src/common/utils/text_widget.dart';
@@ -12,11 +13,11 @@ import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
-  TextEditingController nameCtrl = TextEditingController();
-  TextEditingController ageCtrl = TextEditingController();
-  TextEditingController genderCtrl = TextEditingController();
-  TextEditingController heightCtrl = TextEditingController();
-  TextEditingController weightCtrl = TextEditingController();
+  TextEditingController nameCtrl = TextEditingController(text:  FitBitConst.usesr!.fullName.toString(),);
+  TextEditingController ageCtrl = TextEditingController(text:  FitBitConst.usesr!.age.toString(),);
+  TextEditingController genderCtrl = TextEditingController(text:  FitBitConst.usesr!.gender.toString(),);
+  TextEditingController heightCtrl = TextEditingController(text:  FitBitConst.usesr!.height.toString(),);
+  TextEditingController weightCtrl = TextEditingController(text:  FitBitConst.usesr!.weight.toString(),);
 
   @override
   Widget build(BuildContext context) {
@@ -66,23 +67,24 @@ class ProfileScreen extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 50.r,
                   backgroundColor: AppColors.primaryColor,
-                  child: Icon(
-                    Icons.person,
+                  child: Image.network(
+                     FitBitConst.usesr!.avatar.toString(),
                     color: AppColors.whiteColor,
-                    size: 60.h,
+                    fit: BoxFit.contain,
+                    height: 60.h,
                   ),
                 ),
               ),
               SizedBox(
                 height: 9.h,
               ),
+              // TextWidget(
+              //   text: 'Mark@mail.com',
+              //   fontSize: 14.sp,
+              //   color: AppColors.primaryColor,
+              // ),
               TextWidget(
-                text: 'Mark@mail.com',
-                fontSize: 14.sp,
-                color: AppColors.primaryColor,
-              ),
-              TextWidget(
-                text: 'Mark',
+                text: FitBitConst.usesr!.fullName.toString(),
                 fontSize: 15.sp,
                 color: AppColors.txtColor,
                 fontWeight: FontWeight.w700,
@@ -120,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ProfileCardWidget(
-                      title: '1046',
+                      title: FitBitConst.stepsdataList![0].value!.toInt().toString(),
                       subTitle: 'Steps',
                       iconWidget: Icon(
                         Icons.directions_run,
@@ -128,7 +130,10 @@ class ProfileScreen extends StatelessWidget {
                         size: 35.h,
                       )),
                   ProfileCardWidget(
-                      title: '86',
+                      title: (FitBitConst.heartRateData!
+                                              .restingHeartRate ??
+                                          0)
+                                      .toString(),
                       subTitle: 'bmp',
                       iconWidget: Icon(
                         Icons.favorite,
@@ -144,7 +149,10 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ProfileCardWidget(
-                      title: '3',
+                      title: (FitBitConst.todayActivities!.
+                                              length ??
+                                          0)
+                                      .toString(),
                       subTitle: 'Sessions',
                       iconWidget: Icon(
                         Icons.fitness_center,
@@ -152,7 +160,8 @@ class ProfileScreen extends StatelessWidget {
                         size: 35.h,
                       )),
                   ProfileCardWidget(
-                      title: '400',
+                      title:  FitBitConst.caloriesdataList![0].value!.toInt()
+                                      .toString(),
                       subTitle: 'kcal',
                       iconWidget: Icon(
                         Icons.local_fire_department,
@@ -164,22 +173,22 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ProfileCardWidget(
-                      title: '400',
-                      subTitle: 'kcal',
-                      iconWidget: Icon(
-                        Icons.local_fire_department,
-                        color: AppColors.primaryColor.withOpacity(.6),
-                        size: 35.h,
-                      )),
-                  SizedBox(
-                    width: ScreenUtil().screenWidth / 2.3,
-                  )
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     ProfileCardWidget(
+              //         title: '400',
+              //         subTitle: 'kcal',
+              //         iconWidget: Icon(
+              //           Icons.local_fire_department,
+              //           color: AppColors.primaryColor.withOpacity(.6),
+              //           size: 35.h,
+              //         )),
+              //     SizedBox(
+              //       width: ScreenUtil().screenWidth / 2.3,
+              //     )
+              //   ],
+              // ),
               SizedBox(
                 height: 15.h,
               ),

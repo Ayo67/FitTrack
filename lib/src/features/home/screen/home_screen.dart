@@ -112,10 +112,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 CircleAvatar(
                   backgroundColor: AppColors.btnColor,
                   radius: 25.r,
-                  child: Icon(
-                    Icons.person,
+                  child:  Image.network(
+                     FitBitConst.usesr!.avatar.toString(),
                     color: AppColors.whiteColor,
-                    size: 30.h,
+                    fit: BoxFit.contain,
+                    height: 30.h,
                   ),
                 ),
                 SizedBox(
