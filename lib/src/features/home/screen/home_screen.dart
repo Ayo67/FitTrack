@@ -112,11 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 CircleAvatar(
                   backgroundColor: AppColors.btnColor,
                   radius: 25.r,
-                  child:  Image.network(
-                     FitBitConst.usesr!.avatar.toString(),
+                  child: Icon(
+                    Icons.person,
                     color: AppColors.whiteColor,
-                    fit: BoxFit.contain,
-                    height: 30.h,
+                    size: 30.h,
                   ),
                 ),
                 SizedBox(
@@ -131,11 +130,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 14.sp,
                       color: AppColors.txtColor,
                     ),
-                    TextWidget(
-                      text: FitBitConst.usesr!.fullName.toString(),
-                      fontSize: 14.sp,
-                      color: AppColors.txtColor,
-                      fontWeight: FontWeight.w500,
+                    Obx(
+                     () {
+                        return TextWidget(
+                          text: FitBitConst.usesrData!.value.fullName.toString(),
+                          fontSize: 14.sp,
+                          color: AppColors.txtColor,
+                          fontWeight: FontWeight.w500,
+                        );
+                      }
                     ),
                   ],
                 ),

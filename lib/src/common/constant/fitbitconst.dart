@@ -1,7 +1,9 @@
 import 'package:fitbitter/fitbitter.dart';
 import 'package:fitnessapp/src/repository/avg_heartrate_model.dart';
 import 'package:fitnessapp/src/repository/sleep_model.dart';
+import 'package:fitnessapp/src/repository/usermodel.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FitBitConst {
@@ -14,6 +16,7 @@ class FitBitConst {
     FitbitAuthScope.LOCATION,
   ];
   static FitbitAccountData? usesr;
+  static Rx<UserModel> usesrData = UserModel().obs;
   static FitbitHeartRateData? heartRateData;
   static SleepResponse? sleepData;
   static List<double>? sleepWeaklyData;

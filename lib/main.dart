@@ -3,6 +3,7 @@ import 'package:fitnessapp/firebase_options.dart';
 import 'package:fitnessapp/src/features/auth/controller/auth_controller.dart';
 import 'package:fitnessapp/src/features/bottom_bar/controller/bottom_bar_controller.dart';
 import 'package:fitnessapp/src/features/home/controller/homecontroller.dart';
+import 'package:fitnessapp/src/features/profile_screen/controller/profilecontroller.dart';
 import 'package:fitnessapp/src/features/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
               Get.put(AuthController());
               Get.put(BottomBarController());
               Get.put(Homecontroller());
+              Get.put(ProfileController());
             },
             debugShowCheckedModeBanner: false,
              home: MyCustomSplashScreen(),

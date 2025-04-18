@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:fitnessapp/src/common/constant/colors.dart';
 import 'package:fitnessapp/src/common/constant/fitbitconst.dart';
@@ -15,6 +16,7 @@ import 'package:fitnessapp/src/features/bottom_bar/page/bottom_bar_Screen.dart';
 import 'package:fitnessapp/src/features/home/controller/homecontroller.dart';
 import 'package:fitnessapp/src/repository/avg_heartrate_model.dart';
 import 'package:fitnessapp/src/repository/sleep_model.dart';
+import 'package:fitnessapp/src/repository/usermodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,7 @@ import 'package:xml/xml.dart' as xml;
 import 'dart:developer';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+
 class FitBitRepo {
   static List<dynamic>? events;
   // Authorize the app and get the Fitbit credentials
@@ -106,26 +109,55 @@ class FitBitRepo {
         unauthorize();
         return;
       }
-
-      FitbitAccountDataManager userDataManager = FitbitAccountDataManager(
-        clientID: Strings.fitbitClientID,
-        clientSecret: Strings.fitbitClientSecret,
+      final inst = FirebaseFirestore.instance;
+      final userdata = await inst
+          .collection("users")
+          .where("userID", isEqualTo: FitBitConst.fitbitCredentials!.userID)
+          .get()
+          .then(
+        (value) {
+          return value;
+        },
       );
+      if (userdata.docs.isEmpty) {
+        FitbitAccountDataManager userDataManager = FitbitAccountDataManager(
+          clientID: Strings.fitbitClientID,
+          clientSecret: Strings.fitbitClientSecret,
+        );
 
-      final List<FitbitData> userData = await userDataManager.fetch(
-        FitbitAccountAPIURL.withCredentials(
-            fitbitCredentials: FitBitConst.fitbitCredentials!),
-      );
+        final List<FitbitData> userData = await userDataManager.fetch(
+          FitbitAccountAPIURL.withCredentials(
+              fitbitCredentials: FitBitConst.fitbitCredentials!),
+        );
 
-      if (userData.isEmpty) {
-        log("Error: No user data received.");
+        if (userData.isEmpty) {
+          log("Error: No user data received.");
 
-        unauthorize();
-        return;
+          unauthorize();
+          return;
+        }
+
+        FitBitConst.usesr = userData[0] as FitbitAccountData;
+        FitBitConst.usesrData.value
+      = UserModel(
+            age: FitBitConst.usesr!.age,
+            bodyFat: 0,
+            dateOfBirth: FitBitConst.usesr!.dateOfBirth,
+            email: "",
+            fullName: FitBitConst.usesr!.fullName,
+            gender: FitBitConst.usesr!.gender,
+            height: FitBitConst.usesr!.height,
+            phoneNo: "",
+            userID: FitBitConst.usesr!.userID,
+            userName: "",
+            weight: FitBitConst.usesr!.weight);
+        await inst.collection("users").doc(FitBitConst.usesr!.userID).set( 
+        FitBitConst.usesrData.value
+          .toMap());
+        log("User Data: ${FitBitConst.usesr!.toJson()}");
+      }else{
+        FitBitConst.usesrData.value=UserModel.fromMap(userdata.docs[0].data());
       }
-
-      FitBitConst.usesr = userData[0] as FitbitAccountData;
-      log("User Data: ${FitBitConst.usesr!.toJson()}");
     } catch (e, stackTrace) {
       log("Error fetching profile: $e");
 
@@ -389,7 +421,7 @@ class FitBitRepo {
         FitBitConst.points.clear();
         // FitBitConst.points =
         fetchtodayActivity(date: DateTime.now());
-            await fetchTCXData(FitBitConst.activities![0].logId.toString());
+        await fetchTCXData(FitBitConst.activities![0].logId.toString());
 
         List<ActivityDataPoint> dataPoints =
             FitBitConst.activities!.map((activity) {
@@ -423,17 +455,15 @@ class FitBitRepo {
           activityDate.isBefore(date.add(Duration(days: 1)));
     }).toList();
     if (FitBitConst.todayActivities!.isNotEmpty) {
-
       Activitycontroller.to.dropDownValue.value =
           FitBitConst.todayActivities![0];
-            await fetchTCXData(FitBitConst.todayActivities![0].logId.toString());
+      await fetchTCXData(FitBitConst.todayActivities![0].logId.toString());
 
       Activitycontroller.to.isActivityFound.value = true;
     } else {
       Activitycontroller.to.isActivityFound.value = false;
     }
-         await initializeMap();
-
+    await initializeMap();
   }
 
   static String _getDominantActivityLevel(Activity activity) {
@@ -478,7 +508,7 @@ class FitBitRepo {
   // Observable loading state
 
   static Future<List<LatLng>> fetchTCXData(String logId) async {
-FitBitConst.points.clear();
+    FitBitConst.points.clear();
     try {
       Activitycontroller.to.isLoadingmap.value = true; // Start loading
       final url = Uri.parse(
@@ -547,31 +577,34 @@ FitBitConst.points.clear();
 
     return FitBitConst.points;
   }
+
   ///MAP
-  
+
   Future<void> initializeMap() async {
-   Activitycontroller.to.isLoadingmap.value = true;
+    Activitycontroller.to.isLoadingmap.value = true;
     await loadCustommarkers();
     await loadTCXData();
-   Activitycontroller.to.isLoadingmap.value = false;
-
+    Activitycontroller.to.isLoadingmap.value = false;
   }
 
   /// Load custom circular FitBitConst.markers
   Future<void> loadCustommarkers() async {
-    FitBitConst.startMarkerIcon = await createCircularMarker(AppColors.primaryColor);
-    FitBitConst.endMarkerIcon = await createCircularMarker(AppColors.primaryColor);
+    FitBitConst.startMarkerIcon =
+        await createCircularMarker(AppColors.primaryColor);
+    FitBitConst.endMarkerIcon =
+        await createCircularMarker(AppColors.primaryColor);
   }
 
   /// Create a **small circular** marker icon
   Future<BitmapDescriptor> createCircularMarker(Color color) async {
-     double size = 20.sp; // Set smaller size
+    double size = 20.sp; // Set smaller size
 
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
     final Paint paint = Paint()..color = color;
-    canvas.drawCircle( Offset(size / 2, size / 2), size / 2, paint);
-    final ui.Image img = await recorder.endRecording().toImage(size.toInt(), size.toInt());
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2, paint);
+    final ui.Image img =
+        await recorder.endRecording().toImage(size.toInt(), size.toInt());
     final ByteData? byteData =
         await img.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List bytes = byteData!.buffer.asUint8List();
@@ -582,125 +615,130 @@ FitBitConst.points.clear();
   Future<void> loadTCXData() async {
     // FitBitConst.points.clear(); // Clear existing points
     // FitBitConst.points = FitBitConst.points; // Fetching points from FitBitConst
-FitBitConst.polylines.clear();
- FitBitConst.markers.clear();
+    FitBitConst.polylines.clear();
+    FitBitConst.markers.clear();
     log("Fetched GPS Points: ${FitBitConst.points.length}");
 
     if (FitBitConst.points.isNotEmpty) {
-      
-        // Add polyline
-        FitBitConst.polylines.add(
-          Polyline(
-            polylineId: const PolylineId("Route_path"),
-            points: FitBitConst.points,
-            color: Colors.black,
-            width: 5,
-          ),
-        );
+      // Add polyline
+      FitBitConst.polylines.add(
+        Polyline(
+          polylineId: const PolylineId("Route_path"),
+          points: FitBitConst.points,
+          color: Colors.black,
+          width: 5,
+        ),
+      );
 
-        // Add start and end FitBitConst.markers with small size
-        FitBitConst.markers.add(
-          Marker(
-            markerId: const MarkerId("start"),
-            position: FitBitConst.points.first,
-            icon:  FitBitConst.startMarkerIcon ??
-                BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueGreen),
-            infoWindow: const InfoWindow(title: "Start Point"),
-          ),
-        );
+      // Add start and end FitBitConst.markers with small size
+      FitBitConst.markers.add(
+        Marker(
+          markerId: const MarkerId("start"),
+          position: FitBitConst.points.first,
+          icon: FitBitConst.startMarkerIcon ??
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          infoWindow: const InfoWindow(title: "Start Point"),
+        ),
+      );
 
-        FitBitConst.markers.add(
-          Marker(
-            markerId: const MarkerId("end"),
-            position: FitBitConst.points.last,
-            icon:  FitBitConst.endMarkerIcon ??
-                BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-            infoWindow: const InfoWindow(title: "End Point"),
-          ),
-        );
+      FitBitConst.markers.add(
+        Marker(
+          markerId: const MarkerId("end"),
+          position: FitBitConst.points.last,
+          icon: FitBitConst.endMarkerIcon ??
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          infoWindow: const InfoWindow(title: "End Point"),
+        ),
+      );
 
-        // Auto zoom to fit the polyline
-        autoZoomToPolyline();
-     FitBitConst.totalDistance = calculateTotalDistance();
+      // Auto zoom to fit the polyline
+      autoZoomToPolyline();
+      FitBitConst.totalDistance = calculateTotalDistance();
     }
   }
 
   /// Auto-zoom to fit all FitBitConst.markers and polyline
- void autoZoomToPolyline() {
-  if (FitBitConst.mapController == null || FitBitConst.points.isEmpty) return;
+  void autoZoomToPolyline() {
+    if (FitBitConst.mapController == null || FitBitConst.points.isEmpty) return;
 
-  FitBitConst.mapController!.getVisibleRegion().then((_) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      LatLngBounds bounds = getLatLngBounds();
-      
-      // Ensure bounds are valid
-      if (bounds.southwest != bounds.northeast) {
-        FitBitConst.mapController!.animateCamera(
-          CameraUpdate.newLatLngBounds(bounds, 50),
-        );
-      } else {
-        print("Skipping animateCamera: Invalid bounds");
-      }
+    FitBitConst.mapController!.getVisibleRegion().then((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        LatLngBounds bounds = getLatLngBounds();
+
+        // Ensure bounds are valid
+        if (bounds.southwest != bounds.northeast) {
+          FitBitConst.mapController!.animateCamera(
+            CameraUpdate.newLatLngBounds(bounds, 50),
+          );
+        } else {
+          print("Skipping animateCamera: Invalid bounds");
+        }
+      });
+    }).catchError((error) {
+      print("Error getting visible region: $error");
     });
-  }).catchError((error) {
-    print("Error getting visible region: $error");
-  });
-}
+  }
 
   /// Calculate bounds for the route
   LatLngBounds getLatLngBounds() {
-  double minLat = FitBitConst.points.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
-  double maxLat = FitBitConst.points.map((p) => p.latitude).reduce((a, b) => a > b ? a : b);
-  double minLng = FitBitConst.points.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
-  double maxLng = FitBitConst.points.map((p) => p.longitude).reduce((a, b) => a > b ? a : b);
+    double minLat = FitBitConst.points
+        .map((p) => p.latitude)
+        .reduce((a, b) => a < b ? a : b);
+    double maxLat = FitBitConst.points
+        .map((p) => p.latitude)
+        .reduce((a, b) => a > b ? a : b);
+    double minLng = FitBitConst.points
+        .map((p) => p.longitude)
+        .reduce((a, b) => a < b ? a : b);
+    double maxLng = FitBitConst.points
+        .map((p) => p.longitude)
+        .reduce((a, b) => a > b ? a : b);
 
-  if (minLat == maxLat && minLng == maxLng) {
-    // Adjust slightly to create a valid bounding box
-    minLat -= 0.0005;
-    maxLat += 0.0005;
-    minLng -= 0.0005;
-    maxLng += 0.0005;
-  }
+    if (minLat == maxLat && minLng == maxLng) {
+      // Adjust slightly to create a valid bounding box
+      minLat -= 0.0005;
+      maxLat += 0.0005;
+      minLng -= 0.0005;
+      maxLng += 0.0005;
+    }
 
-  return LatLngBounds(
-    southwest: LatLng(minLat, minLng),
-    northeast: LatLng(maxLat, maxLng),
-  );
-}
-
-/// Calculate total distance from `FitBitConst.points` list
-double calculateTotalDistance() {
-  if (FitBitConst.points.isEmpty) return 0.0;
-
-  double totalDistance = 0.0;
-
-  for (int i = 0; i < FitBitConst.points.length - 1; i++) {
-    totalDistance += calculateDistance(
-      FitBitConst.points[i],
-      FitBitConst.points[i + 1],
+    return LatLngBounds(
+      southwest: LatLng(minLat, minLng),
+      northeast: LatLng(maxLat, maxLng),
     );
   }
 
-  return totalDistance; // Distance in kilometers
-}
+  /// Calculate total distance from `FitBitConst.points` list
+  double calculateTotalDistance() {
+    if (FitBitConst.points.isEmpty) return 0.0;
 
-/// Calculate distance between two LatLng points using Haversine formula
-double calculateDistance(LatLng start, LatLng end) {
-  const double R = 6371; // Earth's radius in km
-  double lat1 = start.latitude * math.pi / 180;
-  double lat2 = end.latitude * math.pi / 180;
-  double deltaLat = (end.latitude - start.latitude) * math.pi / 180;
-  double deltaLng = (end.longitude - start.longitude) * math.pi / 180;
+    double totalDistance = 0.0;
 
-  double a = math.sin(deltaLat / 2) * math.sin(deltaLat / 2) +
-      math.cos(lat1) * math.cos(lat2) *
-          math.sin(deltaLng / 2) * math.sin(deltaLng / 2);
+    for (int i = 0; i < FitBitConst.points.length - 1; i++) {
+      totalDistance += calculateDistance(
+        FitBitConst.points[i],
+        FitBitConst.points[i + 1],
+      );
+    }
 
-  double c = 2 * math.atan2(math.sqrt(a),math. sqrt(1 - a));
-  return R * c; // Distance in km
-}
+    return totalDistance; // Distance in kilometers
+  }
 
+  /// Calculate distance between two LatLng points using Haversine formula
+  double calculateDistance(LatLng start, LatLng end) {
+    const double R = 6371; // Earth's radius in km
+    double lat1 = start.latitude * math.pi / 180;
+    double lat2 = end.latitude * math.pi / 180;
+    double deltaLat = (end.latitude - start.latitude) * math.pi / 180;
+    double deltaLng = (end.longitude - start.longitude) * math.pi / 180;
 
+    double a = math.sin(deltaLat / 2) * math.sin(deltaLat / 2) +
+        math.cos(lat1) *
+            math.cos(lat2) *
+            math.sin(deltaLng / 2) *
+            math.sin(deltaLng / 2);
 
+    double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    return R * c; // Distance in km
+  }
 }

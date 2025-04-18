@@ -5,19 +5,48 @@ import 'package:fitnessapp/src/common/utils/custom_cotainer.dart';
 import 'package:fitnessapp/src/common/utils/text_widget.dart';
 import 'package:fitnessapp/src/common/validation.dart';
 import 'package:fitnessapp/src/features/auth/sign_in_screen/sign_in_screen.dart';
+import 'package:fitnessapp/src/features/profile_screen/controller/profilecontroller.dart';
 import 'package:fitnessapp/src/features/profile_screen/widget/profile_card_widget.dart';
 import 'package:fitnessapp/src/features/profile_screen/widget/text_field_widget.dart';
+import 'package:fitnessapp/src/repository/usermodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
-  TextEditingController nameCtrl = TextEditingController(text:  FitBitConst.usesr!.fullName.toString(),);
-  TextEditingController ageCtrl = TextEditingController(text:  FitBitConst.usesr!.age.toString(),);
-  TextEditingController genderCtrl = TextEditingController(text:  FitBitConst.usesr!.gender.toString(),);
-  TextEditingController heightCtrl = TextEditingController(text:  FitBitConst.usesr!.height.toString(),);
-  TextEditingController weightCtrl = TextEditingController(text:  FitBitConst.usesr!.weight.toString(),);
+  TextEditingController nameCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.fullName.toString(),
+  );
+  TextEditingController ageCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.age.toString(),
+  );
+  TextEditingController genderCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.gender.toString(),
+  );
+  TextEditingController heightCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.height.toString(),
+  );
+  TextEditingController weightCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.weight.toString(),
+  );
+  TextEditingController emailCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.email.toString(),
+  );
+  TextEditingController usernameCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.userName.toString(),
+  );
+  TextEditingController phoneCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.phoneNo.toString(),
+  );
+  TextEditingController fatCtrl = TextEditingController(
+    text: FitBitConst.usesrData.value.bodyFat.toString(),
+  );
+  TextEditingController dobCtrl = TextEditingController(
+      text: DateFormat('yyyy-MM-dd').format(
+    FitBitConst.usesrData.value.dateOfBirth!,
+  ));
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +96,10 @@ class ProfileScreen extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 50.r,
                   backgroundColor: AppColors.primaryColor,
-                  child: Image.network(
-                     FitBitConst.usesr!.avatar.toString(),
+                  child: Icon(
+                    Icons.person,
                     color: AppColors.whiteColor,
-                    fit: BoxFit.contain,
-                    height: 60.h,
+                    size: 60.h,
                   ),
                 ),
               ),
@@ -84,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
               //   color: AppColors.primaryColor,
               // ),
               TextWidget(
-                text: FitBitConst.usesr!.fullName.toString(),
+                text: FitBitConst.usesrData.value.fullName.toString(),
                 fontSize: 15.sp,
                 color: AppColors.txtColor,
                 fontWeight: FontWeight.w700,
@@ -122,7 +150,9 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ProfileCardWidget(
-                      title: FitBitConst.stepsdataList![0].value!.toInt().toString(),
+                      title: FitBitConst.stepsdataList![0].value!
+                          .toInt()
+                          .toString(),
                       subTitle: 'Steps',
                       iconWidget: Icon(
                         Icons.directions_run,
@@ -130,10 +160,8 @@ class ProfileScreen extends StatelessWidget {
                         size: 35.h,
                       )),
                   ProfileCardWidget(
-                      title: (FitBitConst.heartRateData!
-                                              .restingHeartRate ??
-                                          0)
-                                      .toString(),
+                      title: (FitBitConst.heartRateData!.restingHeartRate ?? 0)
+                          .toString(),
                       subTitle: 'bmp',
                       iconWidget: Icon(
                         Icons.favorite,
@@ -149,10 +177,8 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ProfileCardWidget(
-                      title: (FitBitConst.todayActivities!.
-                                              length ??
-                                          0)
-                                      .toString(),
+                      title:
+                          (FitBitConst.todayActivities!.length ?? 0).toString(),
                       subTitle: 'Sessions',
                       iconWidget: Icon(
                         Icons.fitness_center,
@@ -160,8 +186,9 @@ class ProfileScreen extends StatelessWidget {
                         size: 35.h,
                       )),
                   ProfileCardWidget(
-                      title:  FitBitConst.caloriesdataList![0].value!.toInt()
-                                      .toString(),
+                      title: FitBitConst.caloriesdataList![0].value!
+                          .toInt()
+                          .toString(),
                       subTitle: 'kcal',
                       iconWidget: Icon(
                         Icons.local_fire_department,
@@ -213,17 +240,56 @@ class ProfileScreen extends StatelessWidget {
                 height: 10.h,
               ),
               ProfileTextField(
+                  controller: emailCtrl,
+                  text: 'Email',
+                  validator: (val) => emailValidator(val),
+                  hintText: 'Mark@abc.abc'),
+              SizedBox(
+                height: 10.h,
+              ),
+              ProfileTextField(
+                  controller: usernameCtrl,
+                  text: 'Username',
+                  validator: (val) => validator(val),
+                  hintText: 'Mark.12'),
+              SizedBox(
+                height: 10.h,
+              ),
+              ProfileTextField(
+                  controller: phoneCtrl,
+                  text: 'Phone No',
+                  validator: (val) => validatePhoneNumber(val!),
+                  hintText: '123456789'),
+              SizedBox(
+                height: 10.h,
+              ),
+              ProfileTextField(
                   controller: ageCtrl,
                   text: 'Age',
-                  validator: (val) => nameValidator(val),
-                  hintText: '23 Year'),
+                  validator: (val) => validator(val),
+                  hintText: '23'),
+              SizedBox(
+                height: 10.h,
+              ),
+
+              ProfileTextField(
+                controller: dobCtrl,
+                text: "Date of Birth",
+                hintText: "Select your date of birth",
+                validator: (val) {
+                  if (val == null || val.isEmpty)
+                    return "Please select your DOB";
+                  return null;
+                },
+                isDobField: true,
+              ),
               SizedBox(
                 height: 10.h,
               ),
               ProfileTextField(
                   controller: genderCtrl,
                   text: 'Gender',
-                  validator: (val) => nameValidator(val),
+                  validator: (val) => validator(val),
                   hintText: 'Male'),
               SizedBox(
                 height: 10.h,
@@ -231,46 +297,169 @@ class ProfileScreen extends StatelessWidget {
               ProfileTextField(
                   controller: heightCtrl,
                   text: 'Height',
-                  validator: (val) => nameValidator(val),
-                  hintText: '5 fit 6in'),
+                  validator: (val) => validator(val),
+                  hintText: '300'),
               SizedBox(
                 height: 10.h,
               ),
+
               ProfileTextField(
                   controller: weightCtrl,
                   text: 'Weight',
-                  validator: (val) => nameValidator(val),
-                  hintText: '63Kg'),
+                  validator: (val) => validator(val),
+                  hintText: '63.45'),
+
+              SizedBox(
+                height: 10.h,
+              ),
+
+              ProfileTextField(
+                  controller: fatCtrl,
+                  text: 'Body Fat',
+                  validator: (val) => validator(val),
+                  hintText: '63.45'),
+
+              SizedBox(
+                height: 10.h,
+              ),
+              Obx(
+              () {
+                  return ProfileTextField(
+                    controller: TextEditingController(),
+                    text: 'BMI',
+                    hintText: "",
+                    validator: (val) => null,
+                    isBmiField: true,
+                    bmiValue: ProfileController.to.getBmiWithCategory(
+                      FitBitConst.usesrData.value.weight ?? 0,
+                      FitBitConst.usesrData.value.height ?? 1,
+                    ),
+                  );
+                }
+              ),
+
               SizedBox(
                 height: 50.h,
               ),
-              CustomContainer(
-                onTap: () {
-                  Get.off(SignInScreen());
-                  SharedPref().deleteFitbitCredentials();
-                },
-                height: 60.h,
-                width: double.infinity,
-                borderRadius: 12.r,
-                color: AppColors.primaryColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    TextWidget(
-                      text: 'Log Out',
-                      fontSize: 14.sp,
-                      color: AppColors.bgColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(() {
+                    return CustomContainer(
+                      onTap: () {
+                        if (ProfileController.to.isEdit.value) {
+                          nameCtrl.text =
+                              FitBitConst.usesrData.value.fullName ?? "";
+                          ageCtrl.text =
+                              FitBitConst.usesrData.value.age?.toString() ?? "";
+                          genderCtrl.text =
+                              FitBitConst.usesrData.value.gender ?? "";
+                          heightCtrl.text =
+                              FitBitConst.usesrData.value.height?.toString() ??
+                                  "";
+                          weightCtrl.text =
+                              FitBitConst.usesrData.value.weight?.toString() ??
+                                  "";
+                          emailCtrl.text =
+                              FitBitConst.usesrData.value.email ?? "";
+                          usernameCtrl.text =
+                              FitBitConst.usesrData.value.userName ?? "";
+                          phoneCtrl.text =
+                              FitBitConst.usesrData.value.phoneNo ?? "";
+                          fatCtrl.text =
+                              FitBitConst.usesrData.value.bodyFat?.toString() ??
+                                  "";
+                          dobCtrl.text =
+                              FitBitConst.usesrData.value.dateOfBirth != null
+                                  ? DateFormat('yyyy-MM-dd').format(
+                                      FitBitConst.usesrData.value.dateOfBirth!)
+                                  : "";
+                          ProfileController.to.isEdit.value = false;
+                        } else {
+                          Get.off(SignInScreen());
+                          SharedPref().deleteFitbitCredentials();
+                        }
+                      },
+                      height: 60.h,
+                      width: 150.w,
+                      borderRadius: 12.r,
+                      color: ProfileController.to.isEdit.value
+                          ? Colors.red
+                          : AppColors.primaryColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            ProfileController.to.isEdit.value
+                                ? Icons.close_outlined
+                                : Icons.logout,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          TextWidget(
+                            text: ProfileController.to.isEdit.value
+                                ? "Cancle"
+                                : 'Log Out',
+                            fontSize: 14.sp,
+                            color: AppColors.bgColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                  Obx(() => CustomContainer(
+                        onTap: () {
+                          if (!ProfileController.to.isEdit.value) {
+                            ProfileController.to.isEdit.toggle();
+                          } else {
+                            UserModel updatedUser = UserModel(
+                              age: int.tryParse(ageCtrl.text),
+                              userID: FitBitConst.usesrData.value.userID,
+                              weight: double.tryParse(weightCtrl.text),
+                              height: double.tryParse(heightCtrl.text),
+                              bodyFat: double.tryParse(fatCtrl.text),
+                              fullName: nameCtrl.text,
+                              userName: usernameCtrl.text,
+                              phoneNo: phoneCtrl.text,
+                              email: emailCtrl.text,
+                              gender: genderCtrl.text,
+                              dateOfBirth: dobCtrl.text.isNotEmpty
+                                  ? DateTime.tryParse(dobCtrl.text)
+                                  : FitBitConst.usesrData.value.dateOfBirth,
+                            );
+
+                            ProfileController.to.edit(updatedUser);
+                          }
+                        },
+                        height: 60.h,
+                        width: 150.w,
+                        borderRadius: 12.r,
+                        color: AppColors.primaryColor,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              ProfileController.to.isEdit.value
+                                  ? Icons.done
+                                  : Icons.edit,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 10.w),
+                            TextWidget(
+                              text: ProfileController.to.isEdit.value
+                                  ? 'Done'
+                                  : 'Edit',
+                              fontSize: 14.sp,
+                              color: AppColors.bgColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ],
+                        ),
+                      ))
+                ],
               ),
               SizedBox(
                 height: 50.h,

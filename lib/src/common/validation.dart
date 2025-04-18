@@ -42,6 +42,14 @@ String? nameValidator(String? value) {
   }
   return null;
 }
+String? validator(String? value) {
+  if (value == null || value.isEmpty) {
+    return "Please enter Related Information.";
+  }
+ 
+ 
+  return null;
+}
 
 String? validatePhoneNumber(String phoneNumber) {
   if (phoneNumber.isEmpty) {
