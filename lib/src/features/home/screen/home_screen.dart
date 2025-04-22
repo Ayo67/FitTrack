@@ -9,6 +9,7 @@ import 'package:fitnessapp/src/common/utils/text_widget.dart';
 import 'package:fitnessapp/src/features/bottom_bar/controller/bottom_bar_controller.dart';
 import 'package:fitnessapp/src/features/home/controller/homecontroller.dart';
 import 'package:fitnessapp/src/features/home/widget/cart_widget.dart';
+import 'package:fitnessapp/src/features/sleep/sleep.dart';
 import 'package:fitnessapp/src/repository/fitbit_repo.dart';
 import 'package:fitnessapp/src/repository/fitbitmap.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -29,7 +30,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = Homecontroller.to;
   static bool isFetched = false; // This persists across widget rebuilds
- Future<void> _pickDate(BuildContext context, String dateType) async {
+  Future<void> _pickDate(BuildContext context, String dateType) async {
     final controller = BottomBarController.to;
 
     DateTime? pickedDate = await showDatePicker(
@@ -59,13 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (pickedDate != null) {
       controller.isLoading.value = true;
- String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
 
-      
-        if (dateType == 'start') {
-          this.controller.startDate.value = formattedDate;
-        } 
-    
+      if (dateType == 'start') {
+        this.controller.startDate.value = formattedDate;
+      }
+
       var n = await Future.wait([
         FitBitRepo().fetchFitbitCalories(
             startDate: pickedDate.subtract(Duration(days: 1)),
@@ -79,12 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (n.isNotEmpty) {
         controller.isLoading.value = false;
-        setState(() {
-          
-        });
+        setState(() {});
       }
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -130,16 +129,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 14.sp,
                       color: AppColors.txtColor,
                     ),
-                    Obx(
-                     () {
-                        return TextWidget(
-                          text: FitBitConst.usesrData!.value.fullName.toString(),
-                          fontSize: 14.sp,
-                          color: AppColors.txtColor,
-                          fontWeight: FontWeight.w500,
-                        );
-                      }
-                    ),
+                    Obx(() {
+                      return TextWidget(
+                        text: FitBitConst.usesrData!.value.fullName.toString(),
+                        fontSize: 14.sp,
+                        color: AppColors.txtColor,
+                        fontWeight: FontWeight.w500,
+                      );
+                    }),
                   ],
                 ),
                 Spacer(),
@@ -250,15 +247,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           width: 10.w,
                         ),
-                        Obx(
-                         () {
-                            return TextWidget(
-                              text: controller.startDate.value,
-                              fontSize: 12.sp,
-                              color: AppColors.txtColor,
-                            );
-                          }
-                        )
+                        Obx(() {
+                          return TextWidget(
+                            text: controller.startDate.value,
+                            fontSize: 12.sp,
+                            color: AppColors.txtColor,
+                          );
+                        })
                       ],
                     ),
                   )
@@ -271,57 +266,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CartWidget(
-                      iconWidget: Icon(
-                        Icons.directions_run_outlined,
-                        color: AppColors.txtColor,
-                      ),
-                      // centerWidget: CustomContainer(
-                      //   boxShadow: [
-                      //     BoxShadow(
-                      //         color: AppColors.black,
-                      //         blurRadius: 4,
-                      //         offset: Offset(.5, 1))
-                      //   ],
-                      //   height: 220.h,
-                      //   width: ScreenUtil().screenWidth / 2.5,
-                      //   color: AppColors.cardbgColor,
-                      //   borderRadius: 20.r,
-                      //   child: Padding(
-                      //     padding: EdgeInsets.only(top: 15.h),
-                      //     child: CircularPercentIndicator(
-                      //       reverse: true,
-                      //       radius: 60.r,
-                      //       lineWidth: 6.w,
-                      //       startAngle: 50,
-                      //       percent: .65,
-                      //       center: Column(
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           Text(
-                      //             FitBitConst.stepsdataList![0].value!.toInt()
-                      //                 .toString(),
-                      //             style: TextStyle(
-                      //               fontSize: 20.sp,
-                      //               fontWeight: FontWeight.bold,
-                      //               color: AppColors.txtColor,
-                      //             ),
-                      //           ),
-                      //           Text(
-                      //             "Steps",
-                      //             style: TextStyle(
-                      //               fontSize: 12.sp,
-                      //               color: AppColors.txtColor,
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //       progressColor: AppColors.primaryColor,
-                      //       backgroundColor: Colors.black,
-                      //       circularStrokeCap: CircularStrokeCap.round,
-                      //     ),
-                      //   ),
-                      // ),
-                      ),
+                    iconWidget: Icon(
+                      Icons.directions_run_outlined,
+                      color: AppColors.txtColor,
+                    ),
+                    // centerWidget: CustomContainer(
+                    //   boxShadow: [
+                    //     BoxShadow(
+                    //         color: AppColors.black,
+                    //         blurRadius: 4,
+                    //         offset: Offset(.5, 1))
+                    //   ],
+                    //   height: 220.h,
+                    //   width: ScreenUtil().screenWidth / 2.5,
+                    //   color: AppColors.cardbgColor,
+                    //   borderRadius: 20.r,
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(top: 15.h),
+                    //     child: CircularPercentIndicator(
+                    //       reverse: true,
+                    //       radius: 60.r,
+                    //       lineWidth: 6.w,
+                    //       startAngle: 50,
+                    //       percent: .65,
+                    //       center: Column(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Text(
+                    //             FitBitConst.stepsdataList![0].value!.toInt()
+                    //                 .toString(),
+                    //             style: TextStyle(
+                    //               fontSize: 20.sp,
+                    //               fontWeight: FontWeight.bold,
+                    //               color: AppColors.txtColor,
+                    //             ),
+                    //           ),
+                    //           Text(
+                    //             "Steps",
+                    //             style: TextStyle(
+                    //               fontSize: 12.sp,
+                    //               color: AppColors.txtColor,
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //       progressColor: AppColors.primaryColor,
+                    //       backgroundColor: Colors.black,
+                    //       circularStrokeCap: CircularStrokeCap.round,
+                    //     ),
+                    //   ),
+                    // ),
+                  ),
                   SizedBox(),
                   CustomContainer(
                     // color: AppColors.cardColor,
@@ -458,10 +453,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: EdgeInsets.only(left: 5.w),
                                 child: TextWidget(
-                                  text: 
-                                   Formatesdates.getFormattedDurationMinutes(minutes: 
-                                  FitBitConst.sleepData!.summary
-                                              .totalMinutesAsleep ),
+                                  text:
+                                      Formatesdates.getFormattedDurationMinutes(
+                                          minutes: FitBitConst.sleepData!
+                                              .summary.totalMinutesAsleep),
                                   fontSize: 16.sp,
                                   color: AppColors.txtColor,
                                   fontWeight: FontWeight.w700,
@@ -490,9 +485,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 13.sp,
                                 color: AppColors.txtColor,
                               ),
-                              Icon(
-                                Icons.dark_mode,
-                                color: AppColors.black,
+                              IconButton(
+                                onPressed: () {
+                                  Get.to(() => SleepTrackerScreen(),
+                                      transition: Transition.rightToLeft);
+                                },
+                                icon: Icon(
+                                  Icons.dark_mode,
+                                  color: AppColors.black,
+                                ),
                               )
                             ],
                           ),
@@ -560,7 +561,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: EdgeInsets.only(left: 5.w),
                                 child: TextWidget(
-                                  text: FitBitConst.caloriesdataList![0].value!.toInt()
+                                  text: FitBitConst.caloriesdataList![0].value!
+                                      .toInt()
                                       .toString(),
                                   fontSize: 16.sp,
                                   color: AppColors.txtColor,

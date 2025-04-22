@@ -15,10 +15,12 @@ class FitBitConst {
     FitbitAuthScope.ACTIVITY,
     FitbitAuthScope.LOCATION,
   ];
+  
   static FitbitAccountData? usesr;
   static Rx<UserModel> usesrData = UserModel().obs;
   static FitbitHeartRateData? heartRateData;
   static SleepResponse? sleepData;
+  static List<SleepStageSegment>? sleepstagesegment;
   static List<double>? sleepWeaklyData;
   static List<FitbitActivityTimeseriesData>? stepsdataList;
   static List<FitbitActivityTimeseriesData>? caloriesdataList;
@@ -37,6 +39,4 @@ class FitBitConst {
   static BitmapDescriptor? endMarkerIcon;
   static GoogleMapController? mapController;
   static double? totalDistance;
-
-
 }

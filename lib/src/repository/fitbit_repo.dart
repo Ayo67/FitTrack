@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitbitter/fitbitter.dart';
@@ -11,7 +13,6 @@ import 'package:fitnessapp/src/common/constant/strings.dart';
 import 'package:fitnessapp/src/common/utils/formate_dates.dart';
 import 'package:fitnessapp/src/features/activity_screen/controller/activitycontroller.dart';
 import 'package:fitnessapp/src/features/auth/controller/auth_controller.dart';
-import 'package:fitnessapp/src/features/auth/sign_in_screen/sign_in_screen.dart';
 import 'package:fitnessapp/src/features/bottom_bar/page/bottom_bar_Screen.dart';
 import 'package:fitnessapp/src/features/home/controller/homecontroller.dart';
 import 'package:fitnessapp/src/repository/avg_heartrate_model.dart';
@@ -25,9 +26,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:xml/xml.dart' as xml;
-import 'dart:developer';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 class FitBitRepo {
   static List<dynamic>? events;
@@ -93,12 +91,12 @@ class FitBitRepo {
 
 //unauthorize
   unauthorize() async {
-    await FitbitConnector.unauthorize(
-        clientID: Strings.fitbitClientID,
-        clientSecret: Strings.fitbitClientSecret,
-        fitbitCredentials: FitBitConst.fitbitCredentials!);
-    Get.off(SignInScreen());
-    SharedPref().deleteFitbitCredentials();
+    // await FitbitConnector.unauthorize(
+    //     clientID: Strings.fitbitClientID,
+    //     clientSecret: Strings.fitbitClientSecret,
+    //     fitbitCredentials: FitBitConst.fitbitCredentials!);
+    // Get.off(SignInScreen());
+    // SharedPref().deleteFitbitCredentials();
   }
 
   /// **Fetch User Profile**
@@ -138,8 +136,7 @@ class FitBitRepo {
         }
 
         FitBitConst.usesr = userData[0] as FitbitAccountData;
-        FitBitConst.usesrData.value
-      = UserModel(
+        FitBitConst.usesrData.value = UserModel(
             age: FitBitConst.usesr!.age,
             bodyFat: 0,
             dateOfBirth: FitBitConst.usesr!.dateOfBirth,
@@ -151,12 +148,14 @@ class FitBitRepo {
             userID: FitBitConst.usesr!.userID,
             userName: "",
             weight: FitBitConst.usesr!.weight);
-        await inst.collection("users").doc(FitBitConst.usesr!.userID).set( 
-        FitBitConst.usesrData.value
-          .toMap());
+        await inst
+            .collection("users")
+            .doc(FitBitConst.usesr!.userID)
+            .set(FitBitConst.usesrData.value.toMap());
         log("User Data: ${FitBitConst.usesr!.toJson()}");
-      }else{
-        FitBitConst.usesrData.value=UserModel.fromMap(userdata.docs[0].data());
+      } else {
+        FitBitConst.usesrData.value =
+            UserModel.fromMap(userdata.docs[0].data());
       }
     } catch (e, stackTrace) {
       log("Error fetching profile: $e");
@@ -229,19 +228,21 @@ class FitBitRepo {
           fitbitCredentials: FitBitConst.fitbitCredentials!,
         ),
       );
-
+      //  log("Sleep data is ${response.toString()}");
       if (response == null || response.isEmpty) {
         log("Error: No sleep data received.");
-        unauthorize();
+        // unauthorize();
         return;
       }
 
+      FitBitConst.sleepstagesegment = parseSleepSegments(response);
+      log("length is ${FitBitConst.sleepstagesegment!.length}");
       FitBitConst.sleepData = SleepResponse.fromMap(response);
-      log("Sleep Data: ${FitBitConst.sleepData.toString()}");
+      // log("Sleep Data: ${FitBitConst.sleepData.toString()}");
     } catch (e, stackTrace) {
       log("Error fetching sleep: $e");
       log(stackTrace.toString());
-      unauthorize();
+      // unauthorize();
     }
   }
 

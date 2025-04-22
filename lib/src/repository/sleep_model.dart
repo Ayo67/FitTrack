@@ -194,3 +194,43 @@ class SleepResponse {
   factory SleepResponse.fromJson(String source) =>
       SleepResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 }
+
+class SleepStageSegment {
+  final String stage;
+  final int startMinute;
+  final int durationMinutes;
+
+  SleepStageSegment({
+    required this.stage,
+    required this.startMinute,
+    required this.durationMinutes,
+  });
+
+  @override
+  String toString() {
+    return 'SleepStageSegment(stage: "$stage", startMinute: $startMinute, durationMinutes: $durationMinutes)';
+  }
+}
+
+List<SleepStageSegment> parseSleepSegments(Map<String, dynamic> sleepData) {
+  final sleepList = sleepData['sleep'] as List;
+  final mainSleep = sleepList.firstWhere((s) => s['isMainSleep'] == true);
+  final levels = mainSleep['levels']['data'] as List;
+  final startTime = DateTime.parse(mainSleep['startTime']);
+
+  return levels.map((entry) {
+    final stage = entry['level'].toString().toUpperCase();
+    final dateTime = DateTime.parse(entry['dateTime']);
+    final seconds = entry['seconds'] as int;
+    final startMinute = dateTime.difference(startTime).inMinutes;
+    final durationMinutes = (seconds / 60).round();
+
+    return SleepStageSegment(
+      stage: stage == 'WAKE'
+          ? 'Awake'
+          : stage[0] + stage.substring(1).toLowerCase(),
+      startMinute: startMinute,
+      durationMinutes: durationMinutes,
+    );
+  }).toList();
+}
