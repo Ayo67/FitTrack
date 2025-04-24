@@ -236,7 +236,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                                   return RichText(
                                       text: TextSpan(children: [
                                     TextSpan(
-                                        text: 'Agerage Heart Rate is :',
+                                        text: 'Average Heart Rate is :',
                                         style: TextStyle(
                                             fontSize: 13.sp,
                                             color: AppColors.txtColor)),

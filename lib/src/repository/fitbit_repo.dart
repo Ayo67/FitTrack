@@ -54,7 +54,7 @@ class FitBitRepo {
           fetchFitbitProfile()
               .catchError((e) => log("Error fetching profile: $e")),
           fetchActivities(DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
-              .format(DateTime.now())
+              .format(DateTime.now().add(Duration(days: 1)))
               .toString()),
         ]).then(
           (value) => events = value[5] as List,

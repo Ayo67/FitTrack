@@ -222,7 +222,7 @@ class ProfileScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: TextWidget(
-                  text: 'Personal Informations',
+                  text: 'Personal Information',
                   color: AppColors.txtColor,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
@@ -400,7 +400,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           TextWidget(
                             text: ProfileController.to.isEdit.value
-                                ? "Cancle"
+                                ? "Cancel"
                                 : 'Log Out',
                             fontSize: 14.sp,
                             color: AppColors.bgColor,

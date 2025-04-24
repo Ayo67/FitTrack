@@ -63,7 +63,7 @@ class SignInScreen extends StatelessWidget {
                 //   validator: (value) => emailValidator(value),
                 //   hint: 'Email',
                 //   borderRadius: 12,
-                //   filledColor: AppColors.bgColor,
+                //   filledColor: AppColors.bgColor,S
                 //   hintTextColor: AppColors.whiteColor.withOpacity(.6),
                 //   controller: email,
                 //   borderColor: AppColors.whiteColor.withOpacity(.4),
