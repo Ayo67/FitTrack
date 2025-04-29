@@ -68,13 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
       var n = await Future.wait([
         FitBitRepo().fetchFitbitCalories(
-            startDate: pickedDate.subtract(Duration(days: 1)),
+            startDate: pickedDate,
             endDate: pickedDate),
         FitBitRepo().fetchFitbitHeartRate(date: pickedDate),
-        FitBitRepo().fetchFitbitSleep(date: pickedDate),
         FitBitRepo().fetchFitbitSteps(
-            startDate: pickedDate.subtract(Duration(days: 1)),
+            startDate: pickedDate,
             endDate: pickedDate),
+        FitBitRepo().fetchFitbitSleep(date: pickedDate),
       ]);
 
       if (n.isNotEmpty) {
@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
-                      text: 'Hello !',
+                      text: 'Hello',
                       fontSize: 14.sp,
                       color: AppColors.txtColor,
                     ),

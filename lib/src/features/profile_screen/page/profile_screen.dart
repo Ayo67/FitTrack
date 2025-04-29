@@ -59,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
             child: Row(
               children: [
                 TextWidget(
-                  text: 'Good Morning',
+                  text: 'Hello',
                   fontSize: 17.sp,
                   color: AppColors.txtColor,
                   fontWeight: FontWeight.w800,

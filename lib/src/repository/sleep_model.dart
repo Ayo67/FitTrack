@@ -214,7 +214,16 @@ class SleepStageSegment {
 
 List<SleepStageSegment> parseSleepSegments(Map<String, dynamic> sleepData) {
   final sleepList = sleepData['sleep'] as List;
-  final mainSleep = sleepList.firstWhere((s) => s['isMainSleep'] == true);
+  if (sleepList == null || sleepList.isEmpty) {
+    throw Exception('No sleep data found.');
+  }
+  final mainSleep = sleepList.firstWhere(
+    (s) => s['isMainSleep'] == true,
+    orElse: () => null,
+  );
+  if (mainSleep == null) {
+    throw Exception('No main sleep found.');
+  }
   final levels = mainSleep['levels']['data'] as List;
   final startTime = DateTime.parse(mainSleep['startTime']);
 

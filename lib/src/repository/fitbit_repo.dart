@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:fitnessapp/src/common/constant/colors.dart';
@@ -13,6 +12,7 @@ import 'package:fitnessapp/src/common/constant/strings.dart';
 import 'package:fitnessapp/src/common/utils/formate_dates.dart';
 import 'package:fitnessapp/src/features/activity_screen/controller/activitycontroller.dart';
 import 'package:fitnessapp/src/features/auth/controller/auth_controller.dart';
+import 'package:fitnessapp/src/features/auth/sign_in_screen/sign_in_screen.dart';
 import 'package:fitnessapp/src/features/bottom_bar/page/bottom_bar_Screen.dart';
 import 'package:fitnessapp/src/features/home/controller/homecontroller.dart';
 import 'package:fitnessapp/src/repository/avg_heartrate_model.dart';
@@ -91,12 +91,12 @@ class FitBitRepo {
 
 //unauthorize
   unauthorize() async {
-    // await FitbitConnector.unauthorize(
-    //     clientID: Strings.fitbitClientID,
-    //     clientSecret: Strings.fitbitClientSecret,
-    //     fitbitCredentials: FitBitConst.fitbitCredentials!);
-    // Get.off(SignInScreen());
-    // SharedPref().deleteFitbitCredentials();
+    await FitbitConnector.unauthorize(
+        clientID: Strings.fitbitClientID,
+        clientSecret: Strings.fitbitClientSecret,
+        fitbitCredentials: FitBitConst.fitbitCredentials!);
+    Get.off(SignInScreen());
+    SharedPref().deleteFitbitCredentials();
   }
 
   /// **Fetch User Profile**
@@ -235,9 +235,10 @@ class FitBitRepo {
         return;
       }
 
-      FitBitConst.sleepstagesegment = parseSleepSegments(response);
-      log("length is ${FitBitConst.sleepstagesegment!.length}");
       FitBitConst.sleepData = SleepResponse.fromMap(response);
+      log("sleepresponse is ${response}");
+      // FitBitConst.sleepstagesegment = parseSleepSegments(response);
+      log("length is ${FitBitConst.sleepstagesegment!.length}");
       // log("Sleep Data: ${FitBitConst.sleepData.toString()}");
     } catch (e, stackTrace) {
       log("Error fetching sleep: $e");
@@ -721,7 +722,6 @@ class FitBitRepo {
         FitBitConst.points[i + 1],
       );
     }
-
     return totalDistance; // Distance in kilometers
   }
 
