@@ -11,7 +11,7 @@ class AppColors {
   static Color sedentaryActivityColor = Color(0xffE0E0E0);
   static Color lightlyActivityColor = Color(0xffB3E5FC);
   static Color fairlyActivityColor = Color(0xffA5D6A7);
-  static Color veryActivityColor = Color(0xffFFCC80);
+  static Color goodActivityColor = Color(0xffFFCC80);
   static Color btnColor = Color(0xff4DB6AC);
   static Color txtColor = Color(0xff374151);
   static Color borderdividerColor = Color(0xff374151);

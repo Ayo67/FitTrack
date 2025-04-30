@@ -312,7 +312,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                                                                       ? AppColors
                                                                           .fairlyActivityColor
                                                                       : AppColors
-                                                                          .veryActivityColor),
+                                                                          .goodActivityColor),
                                                     ),
                                                   ),
                                                   Text(

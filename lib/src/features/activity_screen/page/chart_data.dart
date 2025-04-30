@@ -6,7 +6,7 @@ class ChartData {
   'sedentary': 60.0,
   'lightly': 80.0,
   'fairly': 100.0,
-  'very': 150.0,
+  'Good': 150.0,
 };
 
 // Convert data to FlSpots

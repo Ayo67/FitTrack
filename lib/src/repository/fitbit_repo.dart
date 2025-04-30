@@ -237,7 +237,7 @@ class FitBitRepo {
 
       FitBitConst.sleepData = SleepResponse.fromMap(response);
       log("sleepresponse is ${response}");
-      // FitBitConst.sleepstagesegment = parseSleepSegments(response);
+      FitBitConst.sleepstagesegment = parseSleepSegments(response);
       log("length is ${FitBitConst.sleepstagesegment!.length}");
       // log("Sleep Data: ${FitBitConst.sleepData.toString()}");
     } catch (e, stackTrace) {
