@@ -1,4 +1,4 @@
-# FitnessApp
+# FitTrack
 
 A Flutter project designed to help users track their fitness journey by integrating Fitbit data and providing real-time health statistics and visualizations.
 
@@ -24,12 +24,12 @@ Follow the steps below to set up the project on your local machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/fitnessapp.git
+   git clone https://github.com/ayo67/fittrack.git
    ```
 
 2. **Navigate to the project directory:**
    ```bash
-   cd fitnessapp
+   cd fittrack
    ```
 
 3. **Install Flutter dependencies:**  
